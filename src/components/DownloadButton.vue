@@ -83,7 +83,7 @@
 import { useQuasar } from "quasar";
 import { defineComponent } from "vue";
 
-import { getLatestDownloadLink, usePlatforms } from "boot/config";
+import { getLatestDownloadLink, getGithubDownloadLink, usePlatforms } from "boot/config";
 import { useI18n } from "vue-i18n";
 
 export default defineComponent({
@@ -131,10 +131,37 @@ export default defineComponent({
     const i18n = (relativePath) => {
       return $i18n.t("components.downloadButton." + relativePath);
     };
+
+    const performDownload = (url) => {
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+
     const downloadProduct = (platform) => {
       const downloadLink = getLatestDownloadLink(props.product, platform);
       if (downloadLink) {
-        window.location.href = downloadLink;
+        performDownload(downloadLink);
+        
+        if (platform !== "appstore" && platform !== "testflight") {
+          const githubDownloadLink = getGithubDownloadLink(props.product, platform);
+          if (githubDownloadLink) {
+            $q.notify({
+              type: 'info',
+              message: i18n("notifications.ifProxyNotWorking"),
+              caption: githubDownloadLink,
+              timeout: 30000,
+              actions: [
+                { color: 'white', icon: 'download', label: 'Github', noDismiss: true, handler: () => { performDownload(githubDownloadLink) } },
+                { color: 'white', icon: 'close', handler: () => { /* ... */ } },
+              ]
+            })
+          }
+        }
       } else {
         $q.notify({
           message: i18n("notifications.error"),

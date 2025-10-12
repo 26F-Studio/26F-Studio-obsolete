@@ -232,6 +232,7 @@ export default {
         download: "Getting download link...",
         error: "Not available",
         success: "Succeeded",
+        ifProxyNotWorking: "If the proxy fails, please click the download button to download directly from GitHub.",
       },
     },
     languageList: {},

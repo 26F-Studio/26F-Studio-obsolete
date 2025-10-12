@@ -58,9 +58,19 @@ const getLatestDownloadLink = (product, platform) => {
         testFlightIdMap[repoMap[product]]
       }`;
     }
+    const githubDownloadLink = getGithubDownloadLink(product, platform);
+    if (githubDownloadLink) {
+      return `https://gh-proxy.com/${githubDownloadLink}`;
+    }
+  }
+  return null;
+};
+
+export const getGithubDownloadLink = (product, platform) => {
+  if (useProducts().includes(product)) {
     if (extensionMap.hasOwnProperty(platform)) {
       return (
-        "https://mirror.ghproxy.com/https://github.com/26F-Studio/" +
+        "https://github.com/26F-Studio/" +
         repoMap[product] +
         "/releases/latest/download/" +
         `${repoMap[product]}_${extensionMap[platform]}`
@@ -68,7 +78,7 @@ const getLatestDownloadLink = (product, platform) => {
     }
   }
   return null;
-};
+}
 
 export default boot(({ app }) => {
   app.use(VueReCaptcha, {

@@ -227,6 +227,7 @@ export default {
         download: "获取下载链接……",
         error: "暂时不可用",
         success: "成功",
+        ifProxyNotWorking: "如果代理失效，请点击下载按钮直接从 GitHub 下载。",
       },
     },
     languageList: {},
