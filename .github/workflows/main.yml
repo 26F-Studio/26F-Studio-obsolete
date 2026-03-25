@@ -18,17 +18,17 @@ jobs:
           cache: 'npm'
       - name: Install Dependencies and Build
         run: npm i && npm run build
-      - name: Deploy to AliYun
-        if: startsWith(github.ref, 'refs/tags/v') == true
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
-        with:
-          delete_remote_files: true
-          local_path: './dist/pwa/*'
-          remote_path: '${{ secrets.SFTP_REMOTE_PATH }}'
-          server: '${{ secrets.SFTP_SERVER }}'
-          sftpArgs: '-o ConnectTimeout=5'
-          ssh_private_key: ${{ secrets.SFTP_PRIVATE_KEY }}
-          username: '${{ secrets.SFTP_USERNAME }}'
+      # - name: Deploy to AliYun
+      #   if: startsWith(github.ref, 'refs/tags/v') == true
+      #   uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+      #   with:
+      #     delete_remote_files: true
+      #     local_path: './dist/pwa/*'
+      #     remote_path: '${{ secrets.SFTP_REMOTE_PATH }}'
+      #     server: '${{ secrets.SFTP_SERVER }}'
+      #     sftpArgs: '-o ConnectTimeout=5'
+      #     ssh_private_key: ${{ secrets.SFTP_PRIVATE_KEY }}
+      #     username: '${{ secrets.SFTP_USERNAME }}'
       - name: Download and modify 404.html for github pages
         env:
           DIST_PATH: ./dist/pwa
